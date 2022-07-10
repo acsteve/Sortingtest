@@ -1,0 +1,211 @@
+<html>
+<head>
+    <title>Sorting Test</title>
+
+    <style>
+
+        .userinput_div {
+            padding-top:50px;
+            margin:auto;
+            width:40%;
+        }
+        .userlist_table{
+            border-collapse: collapse;
+        }
+        .userlist_table th{
+            border: 1px solid black;
+        }
+    
+
+    </style>
+</head>
+
+
+<body onload="createID()"> <!--Create an auto generated ID in createID() function when body load-->
+    
+    <div>
+        <div class="userinput_div">
+
+            <label for="id">ID</label>
+            <input id="id" type="text" readonly>
+            <input type="text" id="username" placeholder="Username">
+            <input type="text" id="user_occupation" placeholder="UserOccupation">
+            <input type="button" name="button" id="btn" value="Add" onclick="AddRow(),createID()"> <br><br>
+
+
+            <label for="sorting">Sort By:</label>
+            <select id="sorting" onChange="sortfunction()">
+                <option value="userid">UserID</option>
+                <option value="username">UserName</option>
+                <option value="useoccupation">UserOccupation</option>
+            </select>
+            <br><br>
+
+
+            <table id="userlist_table" class="userlist_table">
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>UserOccupation</th>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+
+    <script>
+       //create array variables to store user info
+        var id = [];
+        var username = [];
+        var user_occupation = [];
+        
+        var n = 1; //variable for increment
+        var x = 0; //variable to accesss array element
+        var idnum = 1; //variable for auto-generated ID
+
+
+        function createID() {
+            //give value of idnum  variable to the "id" textbox as an auto-generated user ID
+            id[x] = document.getElementById("id").value = idnum;
+        }
+
+        function sortfunction() {
+
+            var sortingType = document.getElementById("sorting").value;
+
+            //sorting based on User ID
+            if (sortingType == 'userid') {
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.getElementById("userlist_table");
+                switching = true;
+                /*Make a loop that will continue until
+                no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                    first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                        one from current row and one from the next:*/
+                        x = rows[i].getElementsByTagName("TD")[0];
+                        y = rows[i + 1].getElementsByTagName("TD")[0];
+                        //check if the two rows should switch place:
+                        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                            //if so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                        and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+
+            //sorting based on Username
+            else if (sortingType == 'username') {
+
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.getElementById("userlist_table");
+                switching = true;
+
+                while (switching) {
+
+                    switching = false;
+                    rows = table.rows;
+
+                    for (i = 1; i < (rows.length - 1); i++) {
+
+                        shouldSwitch = false;
+
+                        x = rows[i].getElementsByTagName("TD")[1];
+                        y = rows[i + 1].getElementsByTagName("TD")[1];
+
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+
+            //sorting based on User Occupation
+            else if (sortingType == 'useoccupation') {
+
+                var table, rows, switching, i, x, y, shouldSwitch;
+                table = document.getElementById("userlist_table");
+                switching = true;
+
+                while (switching) {
+
+                    switching = false;
+                    rows = table.rows;
+
+                    for (i = 1; i < (rows.length - 1); i++) {
+
+                        shouldSwitch = false;
+
+                        x = rows[i].getElementsByTagName("TD")[2];
+                        y = rows[i + 1].getElementsByTagName("TD")[2];
+
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    if (shouldSwitch) {
+
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                    }
+                }
+            }
+
+        }
+
+        //function to add a row when a new user info was added
+        function AddRow() {
+
+            var userlist_table = document.getElementById('userlist_table');
+            var NewRow = userlist_table.insertRow(n); //insert a new row using n as the row number
+
+            //get the textbox value from user
+            username[x] = document.getElementById("username").value; 
+            user_occupation[x] = document.getElementById("user_occupation").value;
+
+            //insert 3 new cell inside the userlist_table
+            var idcell = NewRow.insertCell(0)
+            var usernamecell = NewRow.insertCell(1);
+            var user_occupationcell = NewRow.insertCell(2);
+
+            //return the html content of id, username and user_occupation
+            idcell.innerHTML = id[x];
+            usernamecell.innerHTML = username[x];
+            user_occupationcell.innerHTML = user_occupation[x]
+
+            n++; //incrrement row number
+            x++; //increment array number
+            idnum++; //increment auto-generated ID
+
+        }
+
+    </script>
+
+</body>
+</html>
